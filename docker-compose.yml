@@ -9,15 +9,15 @@ services:
       - POSTGRES_PASSWORD=Str0ngP@ssw0rd
     ports:
       - '5432:5432'
-    volumes: 
-      - db:/var/lib/postgresql/data
   api:
     build: ./todo-api
     ports:
       - '5000:5000'
-    depends_on: db
+    depends_on: 
+      - db
   front:
     build: ./todo-front
     ports:
       - '1337:80'
-    depends_on: api
+    depends_on: 
+      - api
