@@ -12,7 +12,7 @@ services:
   api:
     build: ./todo-api
     ports:
-      - '5001:5000'
+      - '5001:80'
     depends_on: 
       - db
   front:
