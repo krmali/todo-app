@@ -5,15 +5,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: multiple command
-    uses: appleboy/ssh-action@master
-    with:
-      host: ${{ secrets.SSH_HOST }}
-      username: 'ubuntu'
-      key: ${{ secrets.SSH_PRIVATE_KEY}}
-      port: '22'
-      script: |
-        cd /home/ubuntu/todo-app
-        git pull
-        sudo docker-compose up -d --build
-        
-
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: 'ubuntu'
+          key: ${{ secrets.SSH_PRIVATE_KEY}}
+          port: '22'
+          script: |
+            cd /home/ubuntu/todo-app
+            git pull
+            sudo docker-compose up -d --build
