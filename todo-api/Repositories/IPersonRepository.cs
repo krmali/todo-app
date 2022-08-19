@@ -6,6 +6,8 @@ namespace todo_api.Repositories
     {
       bool Create(Person person);
 
+      IQueryable<Person> GetAll();
+
       Person? Get(int id);
 
       Person? GetByUsername(string username);

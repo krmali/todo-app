@@ -13,7 +13,7 @@ public class TodoRepository : ITodoRepository
 
     public void Create(Todo todo)
     {
-        _todoAppDbContext.Todos.Add(todo);
+        var newTodo = _todoAppDbContext.Todos.Add(todo);
         _todoAppDbContext.SaveChanges();
     }
 

@@ -1,4 +1,5 @@
 using todo_api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace todo_api.Repositories;
 
@@ -10,6 +11,11 @@ public class PersonRepository : IPersonRepository
     public PersonRepository(TodoAppDbContext todoAppDbContext)
     {
         _todoAppDbContext = todoAppDbContext;
+    }
+
+    public IQueryable<Person> GetAll()
+    {
+        return _todoAppDbContext.Persons.AsQueryable();
     }
 
     public bool Create(Person person)
@@ -28,7 +34,7 @@ public class PersonRepository : IPersonRepository
 
     public Person? GetByUsername(string username)
     {
-        var person = _todoAppDbContext.Persons.Where(p => p.Username == username).FirstOrDefault();
+        var person = _todoAppDbContext.Persons.Include(p => p.Todos).Where(p => p.Username == username).FirstOrDefault();
         return person;
     }
 

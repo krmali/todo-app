@@ -1,5 +1,8 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using todo_api.Dtos;
 using todo_api.Models;
 using todo_api.Repositories;
 
@@ -11,39 +14,40 @@ public class TodoController : ControllerBase
 {
 
     private readonly ITodoRepository  _todoRepository;
+    private readonly IPersonRepository  _personRepository;
     private readonly ILogger<TodoController> _logger;
 
     public TodoController(ILogger<TodoController> logger,
-            ITodoRepository  todoRepository
+            ITodoRepository  todoRepository,
+            IPersonRepository  personRepository
             )
     {
         _logger = logger;
         _todoRepository = todoRepository;
+        _personRepository = personRepository;
     }
 
     [Authorize]
     [HttpGet]
-    public IEnumerable<Todo> GetTodos()
+    public IEnumerable<TodoDto> GetTodos()
     {
-        var a = HttpContext.User.Identity.Name;
+        var username = HttpContext.User.Identity!.Name;
+        var person = _personRepository.GetByUsername(username!);
 
-        Console.WriteLine("-------------------------------------------");
-        Console.WriteLine("-------------------------------------------");
-        Console.WriteLine("-------------------------------------------");
-        Console.WriteLine(a);
-        Console.WriteLine("-------------------------------------------");
-        Console.WriteLine("-------------------------------------------");
-        Console.WriteLine("-------------------------------------------");
-        var todos = _todoRepository.GetAll();
-        return todos;
-        
-        /* return Enumerable.Range(1, 5).Select(index => new Todo */
-        /* { */
-        /*     Due = DateTime.Now.AddDays(index), */
-        /*     Description = "hello todo 1", */
-        /*     IsChecked = true */
-        /* }) */
-        /* .ToArray(); */
+        if(person != null){
+            var todos = person.Todos;
+            List<TodoDto> todoDtos = new List<TodoDto>();
+            foreach(var t in todos){
+                todoDtos.Add(new TodoDto(){
+                        Description = t.Description,
+                        Due = t.Due,
+                        IsChecked = t.IsChecked,
+                        Id = t.Id
+                        });
+            }
+            return todoDtos;
+        }
+        return new List<TodoDto>();
     }
 
     [Authorize]
@@ -56,9 +60,20 @@ public class TodoController : ControllerBase
 
     [Authorize]
     [HttpPost]
-    public void CreateTodo([FromBody] Todo Todo)
+    public void CreateTodo([FromBody] TodoDto todoDto)
     {
 
-        _todoRepository.Create(Todo);
+        if(String.IsNullOrWhiteSpace(todoDto.Description))
+            BadRequest();
+            
+        var username = HttpContext.User.Identity!.Name;
+        var person = _personRepository.GetByUsername(username!);
+
+        var todo = new Todo{
+            Description = todoDto.Description!,
+            Due = todoDto.Due,
+            PersonId =  person!.Id
+        };
+        _todoRepository.Create(todo);
     }
 }

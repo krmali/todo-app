@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using todo_api.Models;
@@ -11,9 +12,10 @@ using todo_api.Models;
 namespace todo_api.Migrations
 {
     [DbContext(typeof(TodoAppDbContext))]
-    partial class TodoAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220819232453_Add_CreationTime_To_Todo")]
+    partial class Add_CreationTime_To_Todo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -254,9 +256,6 @@ namespace todo_api.Migrations
 
                     b.Property<DateTime?>("Due")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsChecked")
-                        .HasColumnType("boolean");
 
                     b.Property<long>("PersonId")
                         .HasColumnType("bigint");

@@ -6,11 +6,11 @@ namespace todo_api.Dtos;
 public class TodoDto : Entity
 {
 
-    public DateTime Due{ get; set; }
+    public DateTime? Due{ get; set; }
 
     [Required(ErrorMessage="Description is required")]
-    public string? Description{ get; set; }
+    public string Description{ get; set; }
 
-    public bool IsChecked{ get; set; }
+    public bool IsChecked{ get; set; } = false;
 
 }
