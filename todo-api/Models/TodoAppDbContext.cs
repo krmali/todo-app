@@ -1,9 +1,11 @@
 #nullable disable
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace todo_api.Models
 {
-    public partial class TodoAppDbContext : DbContext
+    public partial class TodoAppDbContext : IdentityDbContext<IdentityUser>
     {
         private readonly IConfiguration _configuration;
 
@@ -14,12 +16,13 @@ namespace todo_api.Models
         }
 
         public virtual DbSet<Todo> Todos { get; set; }
+        public virtual DbSet<Person> Persons { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            Console.WriteLine($"Will use database of type: {_configuration.GetConnectionString("MssqlTodoDb")}");
-            Console.WriteLine($"Will use database of type: {_configuration.GetConnectionString("TodoDb")}");
             Console.WriteLine($"Will use database of type: {_configuration.GetValue(typeof(string), "Database")}");
+            Console.WriteLine(_configuration.GetConnectionString("MssqlTodoDb"));
+            Console.WriteLine(_configuration.GetConnectionString("TodoDb"));
             if (!optionsBuilder.IsConfigured)
             {
                 if (_configuration["DATABASE"] == "mssql")
@@ -35,6 +38,7 @@ namespace todo_api.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

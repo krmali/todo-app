@@ -8,7 +8,7 @@ namespace todo_api.Repositories
 
         Todo? Get(long Id);
 
-        void Create(Todo TodoView);
+        void Create(Todo Todo);
 
         void Update(Todo Todo);
 

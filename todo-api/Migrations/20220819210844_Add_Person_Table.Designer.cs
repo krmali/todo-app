@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using todo_api.Models;
@@ -11,9 +12,10 @@ using todo_api.Models;
 namespace todo_api.Migrations
 {
     [DbContext(typeof(TodoAppDbContext))]
-    partial class TodoAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220819210844_Add_Person_Table")]
+    partial class Add_Person_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -245,14 +247,22 @@ namespace todo_api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("Due")
+                    b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<long>("PersonId")
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Due")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsChecked")
+                        .HasColumnType("boolean");
+
+                    b.Property<long?>("PersonId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -315,13 +325,9 @@ namespace todo_api.Migrations
 
             modelBuilder.Entity("todo_api.Models.Todo", b =>
                 {
-                    b.HasOne("todo_api.Models.Person", "Person")
+                    b.HasOne("todo_api.Models.Person", null)
                         .WithMany("Todos")
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Person");
+                        .HasForeignKey("PersonId");
                 });
 
             modelBuilder.Entity("todo_api.Models.Person", b =>

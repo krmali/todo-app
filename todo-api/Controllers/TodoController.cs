@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using todo_api.Models;
 using todo_api.Repositories;
@@ -20,9 +21,19 @@ public class TodoController : ControllerBase
         _todoRepository = todoRepository;
     }
 
-    [HttpGet()]
+    [Authorize]
+    [HttpGet]
     public IEnumerable<Todo> GetTodos()
     {
+        var a = HttpContext.User.Identity.Name;
+
+        Console.WriteLine("-------------------------------------------");
+        Console.WriteLine("-------------------------------------------");
+        Console.WriteLine("-------------------------------------------");
+        Console.WriteLine(a);
+        Console.WriteLine("-------------------------------------------");
+        Console.WriteLine("-------------------------------------------");
+        Console.WriteLine("-------------------------------------------");
         var todos = _todoRepository.GetAll();
         return todos;
         
@@ -35,10 +46,19 @@ public class TodoController : ControllerBase
         /* .ToArray(); */
     }
 
+    [Authorize]
     [HttpGet("{Id}")]
     public Todo? GetTodo(int Id)
     {
         var todos = _todoRepository.Get(Id);
         return todos;
+    }
+
+    [Authorize]
+    [HttpPost]
+    public void CreateTodo([FromBody] Todo Todo)
+    {
+
+        _todoRepository.Create(Todo);
     }
 }

@@ -11,15 +11,15 @@ public class TodoRepository : ITodoRepository
         _todoAppDbContext = todoAppDbContext;
     }
 
-    public void Create(Todo Todo)
+    public void Create(Todo todo)
     {
-        _todoAppDbContext.Todos.Add(Todo);
+        _todoAppDbContext.Todos.Add(todo);
         _todoAppDbContext.SaveChanges();
     }
 
-    public void Delete(long Id)
+    public void Delete(long id)
     {
-        var todo = _todoAppDbContext.Todos.Find(Id);
+        var todo = _todoAppDbContext.Todos.Find(id);
         if (todo != null)
         {
             _todoAppDbContext.Todos.Remove(todo);
@@ -27,9 +27,9 @@ public class TodoRepository : ITodoRepository
         }
     }
 
-    public Todo? Get(long Id)
+    public Todo? Get(long id)
     {
-        var todo = _todoAppDbContext.Todos.Find(Id);
+        var todo = _todoAppDbContext.Todos.Find(id);
         return todo;
     }
 
@@ -38,8 +38,8 @@ public class TodoRepository : ITodoRepository
         return _todoAppDbContext.Todos.ToList();
     }
 
-    public void Update(Todo Todo)
+    public void Update(Todo todo)
     {
-        _todoAppDbContext.Todos.Update(Todo);
+        _todoAppDbContext.Todos.Update(todo);
     }
 }
