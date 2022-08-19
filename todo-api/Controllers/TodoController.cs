@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using todo_api.Models;
+using todo_api.Repositories;
 
 namespace todo_api.Controllers;
 
@@ -8,34 +9,36 @@ namespace todo_api.Controllers;
 public class TodoController : ControllerBase
 {
 
+    private readonly ITodoRepository  _todoRepository;
     private readonly ILogger<TodoController> _logger;
 
-    public TodoController(ILogger<TodoController> logger)
+    public TodoController(ILogger<TodoController> logger,
+            ITodoRepository  todoRepository
+            )
     {
         _logger = logger;
+        _todoRepository = todoRepository;
     }
 
     [HttpGet()]
     public IEnumerable<Todo> GetTodos()
     {
-        return Enumerable.Range(1, 5).Select(index => new Todo
-        {
-            Due = DateTime.Now.AddDays(index),
-            Description = "hello todo 1",
-            IsChecked = true
-        })
-        .ToArray();
+        var todos = _todoRepository.GetAll();
+        return todos;
+        
+        /* return Enumerable.Range(1, 5).Select(index => new Todo */
+        /* { */
+        /*     Due = DateTime.Now.AddDays(index), */
+        /*     Description = "hello todo 1", */
+        /*     IsChecked = true */
+        /* }) */
+        /* .ToArray(); */
     }
 
     [HttpGet("{Id}")]
-    public IEnumerable<Todo> GetTodo(int Id)
+    public Todo? GetTodo(int Id)
     {
-        return Enumerable.Range(1, 5).Select(index => new Todo
-        {
-            Due = DateTime.Now.AddDays(index),
-            Description = "hello todo 1",
-            IsChecked = true
-        })
-        .ToArray();
+        var todos = _todoRepository.Get(Id);
+        return todos;
     }
 }

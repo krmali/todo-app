@@ -6,11 +6,8 @@ namespace todo_api.Models
     public partial class TodoAppDbContext : DbContext
     {
         private readonly IConfiguration _configuration;
-        public TodoAppDbContext()
-        {
-        }
 
-        public TodoAppDbContext(DbContextOptions<TodoContext> options, IConfiguration configuration)
+        public TodoAppDbContext(DbContextOptions<TodoAppDbContext> options, IConfiguration configuration)
             : base(options)
         {
             _configuration = configuration;
@@ -20,16 +17,18 @@ namespace todo_api.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            Console.WriteLine($"Will use database of type: {_configuration["DATABASE"]}");
+            Console.WriteLine($"Will use database of type: {_configuration.GetConnectionString("MssqlTodoDb")}");
+            Console.WriteLine($"Will use database of type: {_configuration.GetConnectionString("TodoDb")}");
+            Console.WriteLine($"Will use database of type: {_configuration.GetValue(typeof(string), "Database")}");
             if (!optionsBuilder.IsConfigured)
             {
                 if (_configuration["DATABASE"] == "mssql")
                 {
-                    optionsBuilder.UseSqlServer("Server=db,1433;Database=product;User Id=SA;Password=Passw0rd");
+                    optionsBuilder.UseSqlServer(_configuration.GetConnectionString("MssqlTodoDb"));
                 }
                 else
                 {
-                    optionsBuilder.UseNpgsql("User ID=postgres;Password=postgres;Host=db;Port=5432;Database=product;");
+                    optionsBuilder.UseNpgsql(_configuration.GetConnectionString("TodoDb"));
                 }
             }
         }

@@ -2,16 +2,16 @@ using todo_api.Models;
 
 namespace todo_api.Repositories
 {
-  public interface ITodoRepository: IDisposable
-  {
-    IEnumerable<Todo> GetAll();
+    public interface ITodoRepository
+    {
+        IEnumerable<Todo> GetAll();
 
-    Todo Get(long Id);
+        Todo? Get(long Id);
 
-    int Create(Todo TodoView);
+        void Create(Todo TodoView);
 
-    Todo Update(Todo Todo);
+        void Update(Todo Todo);
 
-    bool Delete(long Id);
-  }
+        void Delete(long Id);
+    }
 }
