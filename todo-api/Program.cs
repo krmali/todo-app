@@ -21,14 +21,13 @@ builder.Services.AddDbContext<TodoAppDbContext>();
     .AddDefaultTokenProviders();
 
 
-    // Adding Authentication
-    builder.Services.AddAuthentication(options =>
-            {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-
+// Adding Authentication
+builder.Services.AddAuthentication(options =>
+        {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
 // Adding Jwt Bearer
 .AddJwtBearer(options =>
         {
@@ -94,6 +93,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowOrigin");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
