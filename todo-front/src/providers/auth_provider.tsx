@@ -1,23 +1,32 @@
-import { createContext } from "react"
+import { createContext, useState } from "react";
+import { login as api_login } from "../api/api";
 
-type User = null | {
-  email: string,
-  refreshToken: string 
+export type User = null | {
+username: string,
+              token: string
 }
 
-export const AuthContext = createContext<{
-    user: User,
-    login: (email: string, password: string) => void,
-    logout: () => void,
-    token: string 
-}>({
-    user: null,
-    login: () => {},
-    logout: () => {},
-    token: ""
-});
+// const AuthContext = createContext<User>(null);
+const AuthContext = createContext<{user: User, 
+    authenticate: (user: User) => void,
+    logout: () => void,}>
+    ({user: null, 
+        authenticate: () => {},
+        logout: () => {}
+    });
 
 
-const AuthProvider = () => {
+const AuthProvider = ({children}: {children : JSX.Element}) => {
+    const [user, setUser] = useState<User>(null);
 
+    return (
+        <AuthContext.Provider value={{user:user,
+            authenticate: (user: User) => setUser(user),
+            logout: () => setUser(null)
+        }}>
+            {children}
+        </AuthContext.Provider>
+    );
 }
+
+export {AuthContext, AuthProvider};
