@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres:14.5-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Str0ngP@ssw0rd
+    ports:
+      - '5432:5432'
+  api:
+    build: ./todo-api
+    ports:
+      - '5001:80'
+    depends_on: 
+      - db
+  front:
+    build:
+      context: ./todo-front
+      dockerfile: ../local.Dockerfile
+    ports:
+      - '1337:80'
+    depends_on: 
+      - api
