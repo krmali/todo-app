@@ -41,5 +41,6 @@ public class TodoRepository : ITodoRepository
     public void Update(Todo todo)
     {
         _todoAppDbContext.Todos.Update(todo);
+        _todoAppDbContext.SaveChanges();
     }
 }

@@ -27,10 +27,9 @@ const Register = () => {
             });
             return;
         }
-        const token = await register_api(username, password);
-        if (token) {
-            const user1 = { username: username, token: token };
-            authenticate(user1);
+        let person = await register_api(username, password);
+        if (person) {
+            authenticate(person);
             return;
         }
         user = null;

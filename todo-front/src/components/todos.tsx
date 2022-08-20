@@ -1,9 +1,10 @@
-import { Center, Spinner, useToast } from '@chakra-ui/react';
+import { Box, Center, Spinner, StackDivider, useToast, VStack } from '@chakra-ui/react';
 import { useContext, useState } from 'react';
 import {useQuery} from 'react-query';
 import {getTodos as getTodos_api} from '../api/api'
 import { AuthContext } from '../providers/auth_provider';
 import Todo from './todo';
+import TodoInput from './todo_input';
 
 const Todos = () => {
     const { user } = useContext(AuthContext);
@@ -34,13 +35,18 @@ const Todos = () => {
     }
 
     return(
-        <ul>
+        <>
+               <VStack
+               divider={<StackDivider borderColor='gray.200' />}
+                spacing={4}
+                align='center'
+               >
+            <TodoInput/>
             {query.data.map(td => 
-                <li key={td.id}>
-                    <Todo todo={td}></Todo>
-                </li>
+                 <Todo todo={td}></Todo>
             )}
-        </ul>
+               </VStack>
+        </>
     );
 
 }

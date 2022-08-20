@@ -15,7 +15,7 @@ ConfigurationManager configuration = builder.Configuration;
 
 // Add services to the container.
 
-builder.Services.AddDbContext<TodoAppDbContext>();
+builder.Services.AddDbContext<TodoAppDbContext>(opt => opt.EnableSensitiveDataLogging() );
 // For Identity
     builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 .AddEntityFrameworkStores<TodoAppDbContext>()

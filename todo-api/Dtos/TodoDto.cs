@@ -13,4 +13,6 @@ public class TodoDto : Entity
 
     public bool IsChecked{ get; set; } = false;
 
+    public long PersonId {get; set;}
+
 }

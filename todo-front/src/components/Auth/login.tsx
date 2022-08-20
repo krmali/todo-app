@@ -1,9 +1,7 @@
 import { Formik, Field } from "formik";
 import {
-    Box,
     Button,
     Checkbox,
-    Flex,
     FormControl,
     FormLabel,
     FormErrorMessage,
@@ -18,10 +16,9 @@ import { useContext } from "react";
 const Login = () => {
     let { user, authenticate } = useContext(AuthContext);
     const login = async (username: string, password: string) => {
-        const token = await login_api(username, password);
-        if (token) {
-            const user1 = { username: username, token: token };
-            authenticate(user1);
+        const person = await login_api(username, password);
+        if (person) {
+            authenticate(person);
             return;
         }
         user = null;

@@ -37,6 +37,10 @@ public class PersonRepository : IPersonRepository
         var person = _todoAppDbContext.Persons.Include(p => p.Todos).Where(p => p.Username == username).FirstOrDefault();
         return person;
     }
+    public long? GetIdByUsername(string username){
+        var personId = _todoAppDbContext.Persons.Where(p => p.Username == username).Select(p => p.Id).FirstOrDefault();
+        return personId;
+    }
 
     public Person? Get(string username, string password)
     {

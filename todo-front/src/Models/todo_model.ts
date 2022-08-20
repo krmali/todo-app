@@ -1,8 +1,9 @@
 type TodoModel = {
-    id: number,
+    id: number | null,
     due: Date,
     description: string,
-    isChecked: boolean
+    isChecked: boolean,
+    personId: number
 }
 
 export default TodoModel;

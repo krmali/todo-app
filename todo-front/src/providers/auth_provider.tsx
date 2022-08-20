@@ -2,8 +2,7 @@ import { createContext, useState } from "react";
 import { login as api_login } from "../api/api";
 
 export type User = null | {
-username: string,
-              token: string
+username: string,token: string, id:number
 }
 
 // const AuthContext = createContext<User>(null);

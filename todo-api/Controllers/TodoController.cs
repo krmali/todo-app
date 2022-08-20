@@ -13,13 +13,13 @@ namespace todo_api.Controllers;
 public class TodoController : ControllerBase
 {
 
-    private readonly ITodoRepository  _todoRepository;
-    private readonly IPersonRepository  _personRepository;
+    private readonly ITodoRepository _todoRepository;
+    private readonly IPersonRepository _personRepository;
     private readonly ILogger<TodoController> _logger;
 
     public TodoController(ILogger<TodoController> logger,
-            ITodoRepository  todoRepository,
-            IPersonRepository  personRepository
+            ITodoRepository todoRepository,
+            IPersonRepository personRepository
             )
     {
         _logger = logger;
@@ -34,16 +34,19 @@ public class TodoController : ControllerBase
         var username = HttpContext.User.Identity!.Name;
         var person = _personRepository.GetByUsername(username!);
 
-        if(person != null){
+        if (person != null)
+        {
             var todos = person.Todos;
             List<TodoDto> todoDtos = new List<TodoDto>();
-            foreach(var t in todos){
-                todoDtos.Add(new TodoDto(){
-                        Description = t.Description,
-                        Due = t.Due,
-                        IsChecked = t.IsChecked,
-                        Id = t.Id
-                        });
+            foreach (var t in todos)
+            {
+                todoDtos.Add(new TodoDto()
+                {
+                    Description = t.Description,
+                    Due = t.Due,
+                    IsChecked = t.IsChecked,
+                    Id = t.Id
+                });
             }
             return todoDtos;
         }
@@ -63,17 +66,71 @@ public class TodoController : ControllerBase
     public void CreateTodo([FromBody] TodoDto todoDto)
     {
 
-        if(String.IsNullOrWhiteSpace(todoDto.Description))
+        if (String.IsNullOrWhiteSpace(todoDto.Description))
             BadRequest();
-            
+
         var username = HttpContext.User.Identity!.Name;
         var person = _personRepository.GetByUsername(username!);
 
-        var todo = new Todo{
+        var todo = new Todo
+        {
+            IsChecked = todoDto.IsChecked,
             Description = todoDto.Description!,
             Due = todoDto.Due,
-            PersonId =  person!.Id
+            PersonId = person!.Id
         };
         _todoRepository.Create(todo);
     }
+    [Authorize]
+    [HttpPut]
+    public void UpdateTodo([FromBody] TodoDto todoDto)
+    {
+
+        if (String.IsNullOrWhiteSpace(todoDto.Description))
+            BadRequest();
+
+        var username = HttpContext.User.Identity!.Name;
+        var personId = _personRepository.GetIdByUsername(username!);
+
+        if(personId == null || todoDto.PersonId != personId)
+            BadRequest();
+
+        /* var todo = _todoRepository.Get((long)todoDto.Id); */
+        /* if(todo == null) */
+        /*     BadRequest(); */
+
+
+        var todo = new Todo
+        {
+            IsChecked = todoDto.IsChecked,
+            Description = todoDto.Description!,
+            Due = todoDto.Due,
+            Id = todoDto.Id,
+            PersonId = (long)personId
+        };
+
+        _todoRepository.Update(todo);
+    }
+
+    [Authorize]
+    [HttpDelete]
+    public void deteteTodo(long? id)
+    {
+
+        if (id == null)
+            BadRequest();
+
+        var username = HttpContext.User.Identity!.Name;
+        var personId = _personRepository.GetIdByUsername(username!);
+        var todo = _todoRepository.Get((long)id);
+
+
+        if (todo == null || personId == null || todo.PersonId != personId)
+            BadRequest();
+
+        Console.WriteLine("did not send bad request");
+        _todoRepository.Delete((long)id);
+    }
+
+
 }

@@ -12,6 +12,8 @@ namespace todo_api.Repositories
 
       Person? GetByUsername(string username);
 
+      long? GetIdByUsername(string username);
+
       Person? Get(string username, string password);
     }
 }
