@@ -84,6 +84,8 @@ builder.Services.AddCors(c =>
 
 
 var app = builder.Build();
+var context = app.Services.GetRequiredService<TodoAppDbContext>();
+context.Database.Migrate();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
