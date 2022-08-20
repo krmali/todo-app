@@ -19,7 +19,7 @@ const Todo = ({todo} : TodoProps) => {
     const [isChecked, setIsChecked] = useState<boolean>(todo.isChecked);
 
     const updateTodo = async () => {
-        const newtodo: TodoModel = { id:null, personId: user!.id, description: todo.description
+        const newtodo: TodoModel = { id:todo.id, personId: user!.id, description: todo.description
         , isChecked: isChecked, due: dueDate };
         await updateTodo_api(newtodo, user!.token);
         queryClient.invalidateQueries(['todos']);
