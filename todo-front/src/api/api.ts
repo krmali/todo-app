@@ -1,7 +1,7 @@
 import TodoModel from "../Models/todo_model";
 import { User } from "../providers/auth_provider";
+import { BACKEND_URL } from '../config';
 
-const BACKEND_URL = 'https://localhost:7027/';
 
 const getTodos = async (token: string) => {
     const response = await fetch(`${BACKEND_URL}Todo`, {
