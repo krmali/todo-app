@@ -6,26 +6,28 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { deleteTodo as deleteTodo_api, updateTodo as updateTodo_api} from '../api/api';
 import { AuthContext } from '../providers/auth_provider';
+import { useQueryClient } from 'react-query';
 
 type TodoProps = {
     todo: TodoModel,
 }
 
 const Todo = ({todo} : TodoProps) => {
+    const queryClient = useQueryClient();
     const { user } = useContext(AuthContext);
-    const [description, setDescription] = useState<string>(todo.description);
     const [dueDate, setDueDate] = useState<Date>(new Date(todo.due));
     const [isChecked, setIsChecked] = useState<boolean>(todo.isChecked);
-    console.log(todo.id);
 
     const updateTodo = async () => {
-        const todo: TodoModel = { id:null, personId: user!.id, description: description
+        const newtodo: TodoModel = { id:null, personId: user!.id, description: todo.description
         , isChecked: isChecked, due: dueDate };
-        const res = await updateTodo_api(todo, user!.token);
+        await updateTodo_api(newtodo, user!.token);
+        queryClient.invalidateQueries(['todos']);
     };
 
     const deleteTodo = async () => {
-        const res = await deleteTodo_api(todo.id!, user!.token);
+        await deleteTodo_api(todo.id!, user!.token);
+        queryClient.invalidateQueries(['todos']);
     };
 
     return(
@@ -35,7 +37,7 @@ const Todo = ({todo} : TodoProps) => {
                onChange={() => setIsChecked(!isChecked)}
                defaultChecked={todo.isChecked}></Checkbox>
                <Box w='300px' minWidth='300px'>
-                   <Text fontSize='md'>{description}</Text>
+                   <Text fontSize='md'>{todo.description}</Text>
                </Box>
                 <Box w="100px">
                <DatePicker selected={dueDate} onChange={(date:Date) => setDueDate(date)} />
