@@ -35,7 +35,7 @@ const TodoInput = () => {
                     onChange={handleInputChange}
                     size='lg'
                     variant='outline'
-                    w='200px'
+                    w='300px'
                 />
                 </Box>
                 <Box w="100px">
