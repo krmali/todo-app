@@ -2,11 +2,12 @@ import TodoModel from "../Models/todo_model";
 
 const BACKEND_URL = 'https://localhost:7027/';
 
-const getTodos = async () => {
+const getTodos = async (token: string) => {
     const response = await fetch(`${BACKEND_URL}Todo`, {
         "headers": {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin':'*',
+            'Authorization': `Bearer ${token}`
         },
         "method": "GET",
     });

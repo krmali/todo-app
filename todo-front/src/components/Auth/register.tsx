@@ -22,7 +22,7 @@ const Register = () => {
               title: 'Registration failed',
               description: "password and confirm password should be equal.",
               status: 'error',
-              duration: 1000,
+              duration: 2000,
               isClosable: true,
             });
             return;
