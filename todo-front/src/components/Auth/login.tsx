@@ -6,22 +6,31 @@ import {
     FormLabel,
     FormErrorMessage,
     Input,
-    VStack
+    VStack,
+    useToast
 } from "@chakra-ui/react";
 import { login as login_api } from '../../api/api';
-import { useQuery } from "react-query";
 import { AuthContext } from "../../providers/auth_provider";
 import { useContext } from "react";
 
 const Login = () => {
-    let { user, authenticate } = useContext(AuthContext);
+    let { authenticate } = useContext(AuthContext);
+    const toast = useToast();
+
     const login = async (username: string, password: string) => {
         const person = await login_api(username, password);
         if (person) {
             authenticate(person);
             return;
         }
-        user = null;
+        toast({
+            title: 'Wrong Credentials',
+            description: "Wrong username or password",
+            status: 'error',
+            duration: 2000,
+            isClosable: true,
+        });
+
     };
 
     return (
@@ -72,8 +81,8 @@ const Login = () => {
                         </Button>
                     </VStack>
                 </form>
-            )}
-        </Formik>
+        )}
+    </Formik>
     );
 }
 
