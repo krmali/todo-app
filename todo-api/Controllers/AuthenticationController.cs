@@ -6,6 +6,8 @@ using Microsoft.IdentityModel.Tokens;
 using todo_api.ApiView;
 using todo_api.Models;
 using todo_api.Repositories;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace todo_api.Controllers;
 
@@ -39,11 +41,20 @@ public class AuthenticationController: ControllerBase
         return token;
     }
 
+    private string GetHashedPassword(string password)
+    {
+        var sha = SHA256.Create();
+        var byteArrayPassword = Encoding.Default.GetBytes(password);
+        var hashedPassword = sha.ComputeHash(byteArrayPassword);
+        return Convert.ToBase64String(hashedPassword);
+    }
+
     [HttpPost]
     [Route("login")]
     public async Task<IActionResult> Login([FromBody] UserCred model)
     {
-        var user = _personRepository.Get(model.Username, model.Password);
+        var hashedPassword = GetHashedPassword(model.Password);
+        var user = _personRepository.Get(model.Username, hashedPassword);
         if (user != null)
         {
             var authClaims = new List<Claim>
@@ -78,9 +89,9 @@ public class AuthenticationController: ControllerBase
         Person newPerson = new Person
         {
             Username = model.Username,
-            Password = model.Password
-
+            Password = GetHashedPassword(model.Password)
         };
+
         var saved = _personRepository.Create(newPerson);
         if (!saved)
             return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "User creation failed! Please check user details and try again." });
