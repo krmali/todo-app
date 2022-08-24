@@ -1,10 +1,8 @@
-import { Text, Box, Center, Spinner, StackDivider, useToast, VStack, Flex, Stack, Button, Textarea, Divider } from '@chakra-ui/react';
+import { Center, Spinner, useToast, VStack } from '@chakra-ui/react';
 import { useContext, useState } from 'react';
 import {useQuery} from 'react-query';
 import {getTodos as getTodos_api} from '../api/api'
 import { AuthContext } from '../providers/auth_provider';
-import ReactDatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
 import Todo from './todo';
 import TodoInput from './todo_input';
 
@@ -39,8 +37,7 @@ const Todos = () => {
     return(
         <>
             <VStack
-                divider={<StackDivider borderColor='gray.200' />}
-                spacing={4}
+                spacing={2}
                 align='center'
             >
                 <TodoInput/>
@@ -54,8 +51,3 @@ const Todos = () => {
 }
 
 export default Todos;
-
-function toast(arg0: { title: string; description: string; status: string; duration: number; isClosable: boolean; }) {
-    throw new Error('Function not implemented.');
-}
-

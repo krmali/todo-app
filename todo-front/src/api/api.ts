@@ -22,12 +22,10 @@ const login = async (username: string, password: string) => {
         "headers": {
             "content-type": "application/json",
             'Access-Control-Allow-Origin':'*',
-    },
-    "body": JSON.stringify(login_body),
-    "method": "POST",
-    // "credentials": "include"
+        },
+        "body": JSON.stringify(login_body),
+        "method": "POST",
     });
-    // if(!response.ok)
     if(response.ok){
         const response_json  = await response.json();
         const token:string = response_json['token'];
@@ -44,12 +42,10 @@ const register = async (username: string, password: string) => {
         "headers": {
             "content-type": "application/json",
             'Access-Control-Allow-Origin':'*',
-    },
-    "body": JSON.stringify(register_body),
-    "method": "POST",
-    // "credentials": "include"
+        },
+        "body": JSON.stringify(register_body),
+        "method": "POST",
     });
-    // if(!response.ok)
     if(register_response.ok){
         const token = await login(username, password);
         if(token){
@@ -63,13 +59,12 @@ const register = async (username: string, password: string) => {
 const updateTodo = async (todo: TodoModel, token: string) => {
     const body = JSON.stringify(todo);
     const response = await fetch(`${BACKEND_URL}Todo`, {
-      "headers": {
-        "authorization": `Bearer ${token}`,
-        "content-type": "application/json",
-      },
-      // "body": "  {\n    \"due\": \"2022-08-04T22:54:27.293Z\",\n    \"description\": \"test test test4\",\n    \"isChecked\": true,\n    \"id\": 4\n  }",
-      "body": body,
-      "method": "PUT",
+        "headers": {
+            "authorization": `Bearer ${token}`,
+            "content-type": "application/json",
+        },
+        "body": body,
+        "method": "PUT",
     });
     if(response.ok){
         return true;
@@ -80,12 +75,12 @@ const updateTodo = async (todo: TodoModel, token: string) => {
 const createTodo = async (todo: TodoModel, token: string) => {
     const body = JSON.stringify(todo);
     const response = await fetch(`${BACKEND_URL}Todo`, {
-      "headers": {
-        "authorization": `Bearer ${token}`,
-        "content-type": "application/json",
-      },
-      "body": body,
-      "method": "POST",
+        "headers": {
+            "authorization": `Bearer ${token}`,
+            "content-type": "application/json",
+        },
+        "body": body,
+        "method": "POST",
     });
     if(response.ok){
         return true;
@@ -95,11 +90,11 @@ const createTodo = async (todo: TodoModel, token: string) => {
 
 const deleteTodo = async (id: number, token: string) => {
     const response = await fetch(`${BACKEND_URL}Todo?id=${id}`, {
-      "headers": {
-        "authorization": `Bearer ${token}`,
-        "content-type": "application/json",
-      },
-      "method": "Delete",
+        "headers": {
+            "authorization": `Bearer ${token}`,
+            "content-type": "application/json",
+        },
+        "method": "Delete",
     });
     if(response.ok){
         return true;
