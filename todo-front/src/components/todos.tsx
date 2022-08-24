@@ -1,8 +1,10 @@
-import { Box, Center, Spinner, StackDivider, useToast, VStack } from '@chakra-ui/react';
+import { Text, Box, Center, Spinner, StackDivider, useToast, VStack, Flex, Stack, Button, Textarea, Divider } from '@chakra-ui/react';
 import { useContext, useState } from 'react';
 import {useQuery} from 'react-query';
 import {getTodos as getTodos_api} from '../api/api'
 import { AuthContext } from '../providers/auth_provider';
+import ReactDatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
 import Todo from './todo';
 import TodoInput from './todo_input';
 
@@ -23,12 +25,12 @@ const Todos = () => {
     if (query.isError) {
         if(!isErrorShown){
             toast({
-              title: 'Network Error',
-              description: "oops, it seems that there is a technical issue.",
-              status: 'error',
-              duration: 2000,
-              isClosable: true,
-            })
+                title: 'Network Error',
+                description: "oops, it seems that there is a technical issue.",
+                status: 'error',
+                duration: 2000,
+                isClosable: true,
+            });
             setIsErrorShown(true);
         }
         return <></>;
@@ -36,16 +38,16 @@ const Todos = () => {
 
     return(
         <>
-               <VStack
-               divider={<StackDivider borderColor='gray.200' />}
+            <VStack
+                divider={<StackDivider borderColor='gray.200' />}
                 spacing={4}
                 align='center'
-               >
-            <TodoInput/>
-            {query.data.map(td => 
-                 <Todo todo={td}></Todo>
-            )}
-               </VStack>
+            >
+                <TodoInput/>
+                {query.data.map(td => 
+                <Todo todo={td}></Todo>
+                )}
+            </VStack>
         </>
     );
 
