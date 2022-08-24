@@ -9,23 +9,10 @@ import {
     useDisclosure,
     useColorModeValue,
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
+import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { AuthContext } from '../providers/auth_provider';
+import { FcTodoList } from 'react-icons/fc';
 
-
-const NavLink = ({ children }: { children: ReactNode }) => (
-    <Link
-        px={2}
-        py={1}
-        rounded={'md'}
-        _hover={{
-            textDecoration: 'none',
-            bg: useColorModeValue('gray.200', 'gray.700'),
-        }}
-        href={'#'}>
-        {children}
-    </Link>
-);
 
 export default function Navbar() {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -43,7 +30,8 @@ export default function Navbar() {
                         onClick={isOpen ? onClose : onOpen}
                     />
                     <HStack spacing={8} alignItems={'center'}>
-                        <Box fontWeight="bold" color="brown">TODO-APP</Box>
+                        <FcTodoList size="40"/>
+                        <Box fontWeight="bold" fontStyle={'italic'} color="brown">TODO-APP</Box>
                         <Box fontWeight="bold" color="gray.700">hello {user!.username}</Box>
                         <Link
                             px={2}

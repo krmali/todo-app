@@ -30,7 +30,7 @@ const login = async (username: string, password: string) => {
         const response_json  = await response.json();
         const token:string = response_json['token'];
         const id:number= response_json['personId'];
-        const user:User = {username: username, token: token, id: id};
+        const user:User = {username: username, password: password, token: token, id: id};
         return user;
     }
     return null;

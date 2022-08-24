@@ -1,8 +1,7 @@
-// import logo from './logo.svg';
 import './App.css';
 import {
-        QueryClient,
-        QueryClientProvider,
+    QueryClient,
+    QueryClientProvider,
 } from 'react-query';
 import {AuthProvider} from './providers/auth_provider';
 import { ChakraProvider } from '@chakra-ui/react'
@@ -12,14 +11,14 @@ const queryClient = new QueryClient();
 
 function App() {
     return (
-            <QueryClientProvider client={queryClient}>
-                <ChakraProvider>
-                    <AuthProvider>
-                        <Pages/>
-                    </AuthProvider>
-                </ChakraProvider>
-            </QueryClientProvider>
-           );
+        <QueryClientProvider client={queryClient}>
+            <ChakraProvider>
+                <AuthProvider>
+                    <Pages/>
+                </AuthProvider>
+            </ChakraProvider>
+        </QueryClientProvider>
+    );
 }
 
 export default App;

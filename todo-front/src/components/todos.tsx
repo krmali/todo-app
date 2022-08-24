@@ -37,15 +37,17 @@ const Todos = () => {
     return(
         <>
             <VStack
-                spacing={2}
-                align='center'
-            >
-                <TodoInput/>
-                {query.data.map(td => 
-                <Todo todo={td}></Todo>
-                )}
-            </VStack>
-        </>
+        spacing={2}
+        align='center'
+    >
+        <TodoInput/>
+        {query.data.map(td => 
+        <span key={td.id}>
+            <Todo todo={td}></Todo>
+        </span>
+        )}
+    </VStack>
+</>
     );
 
 }

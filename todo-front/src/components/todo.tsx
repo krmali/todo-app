@@ -12,7 +12,6 @@ type TodoProps = {
 }
 
 const Todo = ({todo} : TodoProps) => {
-    console.log(todo) ;
     const queryClient = useQueryClient();
     const { user } = useContext(AuthContext);
     const [dueDate, setDueDate] = useState<Date>(new Date(todo.due));
@@ -65,40 +64,40 @@ const Todo = ({todo} : TodoProps) => {
         <>
             <Flex justify="center">
                 <Stack
-                    boxShadow="lg"
-                    m="1px"
-                    p="8px"
-                    borderRadius="lg"
-                    bg="gray.100"
-                    direction={{ base: 'column', md: 'row' }}
-                    align="center"
-                    justifyContent="space-between">
-                    <Checkbox 
-                        size="lg"
-                        bg="white"
-                        colorScheme="orange"
-                        onChange={() => setIsChecked(!isChecked)}
-                        defaultChecked={todo.isChecked}></Checkbox>
-                    <Box w="300px" minWidth="300px" bg="white" borderRadius="xl">
-                        <Textarea
-                            size='lg'
-                            variant='outline'
-                            value={description}
-                            onChange={handleInputChange}
-                            w='300px'
-                        />
-                    </Box>
-                    <ReactDatePicker selected={dueDate} onChange={(date: Date) => setDueDate(date)}
-                        className="react-datapicker__input-text"
-                        isClearable={true}
-                    />
-                    <Text fontSize={{ base: 'sm' }} textAlign={'left'} >
-                    </Text>
-                    <Button p="5" colorScheme="blue"
-                        onClick={updateTodo}
-                    >update</Button>
-                <Button p="5" colorScheme="red"
-                    onClick={deleteTodo}
+        boxShadow="lg"
+        m="1px"
+        p="8px"
+        borderRadius="lg"
+        bg="gray.100"
+        direction={{ base: 'column', md: 'row' }}
+        align="center"
+        justifyContent="space-between">
+        <Checkbox 
+        size="lg"
+        bg="white"
+        colorScheme="orange"
+        onChange={() => setIsChecked(!isChecked)}
+        defaultChecked={todo.isChecked}></Checkbox>
+    <Box w="300px" minWidth="300px" bg="white" borderRadius="xl">
+        <Textarea
+        size='lg'
+        variant='outline'
+        value={description}
+        onChange={handleInputChange}
+        w='300px'
+        />
+    </Box>
+    <ReactDatePicker selected={dueDate} onChange={(date: Date) => setDueDate(date)}
+        className="react-datapicker__input-text"
+        isClearable={true}
+        />
+        <Text fontSize={{ base: 'sm' }} textAlign={'left'} >
+        </Text>
+        <Button p="5" colorScheme="blue"
+        onClick={updateTodo}
+    >update</Button>
+<Button p="5" colorScheme="red"
+onClick={deleteTodo}
                 >delete</Button>
         </Stack>
     </Flex>

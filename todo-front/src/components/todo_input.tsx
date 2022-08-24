@@ -54,36 +54,36 @@ const TodoInput = () => {
         <>
             <Flex justify="center">
                 <Stack
-                    boxShadow="lg"
-                    m="4px"
-                    p="8px"
-                    borderRadius="lg"
-                    bg="teal.50"
-                    direction={{ base: 'column', md: 'row' }}
-                    align="center"
-                    justifyContent="space-between">
-                    <Stack direction="column" align="center">
-                        <Text fontWeight="semibold">New Todo</Text>
-                        <FcAddDatabase size="30" />
-                    </Stack>
-                    <Box w="300px" minWidth="300px" bg="white" borderRadius="xl">
-                        <Textarea
-                            size='lg'
-                            variant='outline'
-                            value={description}
-                            onChange={handleInputChange}
-                            w='300px'
-                        />
-                    </Box>
-                    <ReactDatePicker selected={dueDate} onChange={(date: Date) => setDueDate(date)}
-                        className="react-datapicker__input-text"
-                        isClearable={true}
-                    />
-                    <Text fontSize={{ base: 'sm' }} textAlign={'left'} >
-                    </Text>
-                    <Button colorScheme="green"
-                        onClick={createTodo}
-                    >Save</Button>
+        boxShadow="lg"
+        m="4px"
+        p="8px"
+        borderRadius="lg"
+        bg="teal.50"
+        direction={{ base: 'column', md: 'row' }}
+        align="center"
+        justifyContent="space-between">
+        <Stack direction="column" align="center">
+            <Text fontWeight="semibold">New Todo</Text>
+            <FcAddDatabase size="30" />
+        </Stack>
+        <Box w="300px" minWidth="300px" bg="white" borderRadius="xl">
+            <Textarea
+        size='lg'
+        variant='outline'
+        value={description}
+        onChange={handleInputChange}
+        w='300px'
+        />
+    </Box>
+    <ReactDatePicker selected={dueDate} onChange={(date: Date) => setDueDate(date)}
+        className="react-datapicker__input-text"
+        isClearable={true}
+        />
+        <Text fontSize={{ base: 'sm' }} textAlign={'left'} >
+        </Text>
+        <Button colorScheme="green"
+        onClick={createTodo}
+    >Save</Button>
                 </Stack>
             </Flex>
         </>
