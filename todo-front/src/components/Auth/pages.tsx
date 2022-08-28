@@ -28,6 +28,8 @@ const Pages = () => {
         const password = localStorage.getItem("password");
         if(!user && username && password){
             login(username, password);
+        }else{
+            setIsLoading(false);
         }
     });
 
