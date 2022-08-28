@@ -53,6 +53,7 @@ public class AuthenticationController: ControllerBase
     [Route("login")]
     public async Task<IActionResult> Login([FromBody] UserCred model)
     {
+        model.Username = model.Username.ToLower();
         var hashedPassword = GetHashedPassword(model.Password);
         var user = _personRepository.Get(model.Username, hashedPassword);
         if (user != null)
@@ -79,6 +80,7 @@ public class AuthenticationController: ControllerBase
     [Route("register")]
     public async Task<IActionResult> Register([FromBody] UserCred model)
     {
+        model.Username = model.Username.ToLower();
         if (model.Username == null)
             return StatusCode(StatusCodes.Status400BadRequest, new { Status = "Error", Message = "bad request" });
 
